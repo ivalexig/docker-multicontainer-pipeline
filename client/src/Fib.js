@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Fib = () => {
+function Fib() {
   const [seenIndexes, setSeenIndexes] = useState([]);
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState([]);
   const [index, setIndex] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const shouldUpdate = submitted === true;
 
   useEffect(() => {
     fetchValues();
     fetchIndexes();
-  });
+    setSubmitted(false);
+  }, [shouldUpdate]);
 
   const fetchValues = async () => {
-    const values = await axios.get('/api/values/current');
-    setValues({ values: values.data });
+    const apiValues = await axios.get('/api/values/current');
+    const entries = Object.entries(apiValues.data);
+    setValues(entries);
   };
 
   const fetchIndexes = async () => {
@@ -28,6 +33,7 @@ const Fib = () => {
       index: index,
     });
     setIndex('');
+    setSubmitted(true);
   };
 
   const renderSeenIndexes = () => {
@@ -35,17 +41,11 @@ const Fib = () => {
   };
 
   const renderValues = () => {
-    const entries = [];
-
-    for (let key in values) {
-      entries.push(
-        <div key={key}>
-          For index {key} I calculated {values[key]}
-        </div>
-      );
-    }
-
-    return entries;
+    return values.map(([key, value]) => (
+      <div key={key}>
+        For index {key} I calculated {value}
+      </div>
+    ));
   };
 
   return (
@@ -66,6 +66,6 @@ const Fib = () => {
       {renderValues()}
     </div>
   );
-};
+}
 
 export default Fib;
