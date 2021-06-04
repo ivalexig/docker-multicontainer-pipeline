@@ -3,7 +3,7 @@ servies:
   - docker
 
 before_install:
-  - docker build -t ivalexig/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t ivalexig/react-tests -f ./client/Dockerfile.dev ./client
 
 # Can add other tests here (eg. back end server tests)
 script:
