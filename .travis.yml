@@ -7,7 +7,7 @@ before_install:
 
 # Can add other tests here (eg. back end server tests)
 script:
-  - docker run ivalexig/react-tests npm test -- --coverage
+  - docker run -e CI=true ivalexig/react-tests npm test
 
 after_success:
   - docker build -t ivalexig/multi-client ./client
