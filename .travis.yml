@@ -24,7 +24,7 @@ after_success:
 
 # Push project to AWS beanstalk
 deploy:
-  provider: elastocbeanstalk
+  provider: elasticbeanstalk
   region: 'ap-southeast-2'
   app: 'MultiDocker'
   env: 'Multidocker-env'
